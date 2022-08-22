@@ -1,4 +1,4 @@
-module go-common-plugin
+module github.com/ekomanurung/go-common-plugin
 
 go 1.18
 
