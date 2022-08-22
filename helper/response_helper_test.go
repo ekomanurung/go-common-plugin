@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/ekomanurung/go-common-plugin/exception"
 	"github.com/go-playground/assert/v2"
 	"github.com/go-playground/validator/v10"
 )
@@ -64,5 +65,20 @@ func TestResponseHelper(t *testing.T) {
 		assert.Equal(t, nil, response.Errors)
 		assert.Equal(t, 500, response.Code)
 		assert.Equal(t, http.StatusText(http.StatusInternalServerError), response.Status)
+	})
+	t.Run("Status", func(t *testing.T) {
+		response := Status[any](422)
+		assert.Equal(t, nil, response.Errors)
+		assert.Equal(t, 422, response.Code)
+		assert.Equal(t, http.StatusText(http.StatusUnprocessableEntity), response.Status)
+	})
+	t.Run("Business Exception", func(t *testing.T) {
+		response := BusinessException[any](exception.Exception{
+			Code:    400,
+			Message: "Error file not exist",
+		})
+		assert.Equal(t, nil, response.Errors)
+		assert.Equal(t, 400, response.Code)
+		assert.Equal(t, "Error file not exist", response.Status)
 	})
 }

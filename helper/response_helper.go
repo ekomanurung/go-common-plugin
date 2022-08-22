@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/ekomanurung/go-common-plugin/exception"
 	"github.com/ekomanurung/go-common-plugin/model"
 	"github.com/go-playground/validator/v10"
 )
@@ -14,6 +15,20 @@ func Ok[T any](data T) model.Response[T] {
 		Code:   http.StatusOK,
 		Status: http.StatusText(http.StatusOK),
 		Data:   data,
+	}
+}
+
+func Status[T any](status int) model.Response[T] {
+	return model.Response[T]{
+		Code:   status,
+		Status: http.StatusText(status),
+	}
+}
+
+func BusinessException[T any](ex exception.Exception) model.Response[T] {
+	return model.Response[T]{
+		Code:   ex.Code,
+		Status: ex.Message,
 	}
 }
 
