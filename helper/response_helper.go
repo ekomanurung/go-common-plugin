@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/ekomanurung/go-common-plugin/model"
 	"github.com/go-playground/validator/v10"
-	"go-common-plugin/model"
 )
 
 func Ok[T any](data T) model.Response[T] {
