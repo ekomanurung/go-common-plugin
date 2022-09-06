@@ -47,7 +47,7 @@ func NotFound[T any]() model.Response[T] {
 	}
 }
 
-func InternalServerErrorp[T any]() model.Response[T] {
+func InternalServerError[T any]() model.Response[T] {
 	return model.Response[T]{
 		Code:   http.StatusInternalServerError,
 		Status: http.StatusText(http.StatusInternalServerError),
