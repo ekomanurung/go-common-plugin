@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/ekomanurung/go-common-plugin/exception"
 	"github.com/ekomanurung/go-common-plugin/model"
@@ -61,7 +62,7 @@ func toMapError(err error) map[string][]string {
 
 	if errors.As(err, &v) {
 		for _, fieldError := range v {
-			groupOfErrors[fieldError.Field()] = []string{toValidationErrorMessage(fieldError)}
+			groupOfErrors[strings.ToLower(fieldError.Field())] = []string{toValidationErrorMessage(fieldError)}
 		}
 	}
 	return groupOfErrors

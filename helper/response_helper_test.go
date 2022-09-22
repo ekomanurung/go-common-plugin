@@ -61,7 +61,7 @@ func TestResponseHelper(t *testing.T) {
 		assert.Equal(t, http.StatusText(http.StatusNotFound), response.Status)
 	})
 	t.Run("internal server error", func(t *testing.T) {
-		response := InternalServerErrorp[any]()
+		response := InternalServerError[any]()
 		assert.Equal(t, nil, response.Errors)
 		assert.Equal(t, 500, response.Code)
 		assert.Equal(t, http.StatusText(http.StatusInternalServerError), response.Status)
