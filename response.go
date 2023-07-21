@@ -1,6 +1,6 @@
-package model
+package go_common_plugin
 
-type Response[T any] struct {
+type Response[T interface{}] struct {
 	Code   int                 `json:"code"`
 	Status string              `json:"status"`
 	Errors map[string][]string `json:"errors,omitempty"`

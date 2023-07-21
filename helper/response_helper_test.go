@@ -73,12 +73,12 @@ func TestResponseHelper(t *testing.T) {
 		assert.Equal(t, http.StatusText(http.StatusUnprocessableEntity), response.Status)
 	})
 	t.Run("Business Exception", func(t *testing.T) {
-		response := BusinessException[any](exception.Exception{
-			Code:    400,
-			Message: "Error file not exist",
+		response := BusinessException[exception.Exception](exception.Exception{
+			Code:   400,
+			Errors: exception.NotFoundError,
 		})
 		assert.Equal(t, nil, response.Errors)
 		assert.Equal(t, 400, response.Code)
-		assert.Equal(t, "Error file not exist", response.Status)
+		assert.Equal(t, exception.NotFoundError.Error(), response.Status)
 	})
 }

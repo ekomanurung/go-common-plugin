@@ -3,53 +3,53 @@ package helper
 import (
 	"errors"
 	"fmt"
+	"github.com/ekomanurung/go-common-plugin"
 	"net/http"
 	"strings"
 
 	"github.com/ekomanurung/go-common-plugin/exception"
-	"github.com/ekomanurung/go-common-plugin/model"
 	"github.com/go-playground/validator/v10"
 )
 
-func Ok[T any](data T) model.Response[T] {
-	return model.Response[T]{
+func Ok[T interface{}](data T) go_common_plugin.Response[T] {
+	return go_common_plugin.Response[T]{
 		Code:   http.StatusOK,
 		Status: http.StatusText(http.StatusOK),
 		Data:   data,
 	}
 }
 
-func Status[T any](status int) model.Response[T] {
-	return model.Response[T]{
+func Status[T interface{}](status int) go_common_plugin.Response[T] {
+	return go_common_plugin.Response[T]{
 		Code:   status,
 		Status: http.StatusText(status),
 	}
 }
 
-func BusinessException[T any](ex exception.Exception) model.Response[T] {
-	return model.Response[T]{
+func BusinessException[T interface{}](ex exception.Exception) go_common_plugin.Response[T] {
+	return go_common_plugin.Response[T]{
 		Code:   ex.Code,
-		Status: ex.Message,
+		Status: ex.Errors.Error(),
 	}
 }
 
-func BadRequest[T any](err error) model.Response[T] {
-	return model.Response[T]{
+func BadRequest[T interface{}](err error) go_common_plugin.Response[T] {
+	return go_common_plugin.Response[T]{
 		Code:   http.StatusBadRequest,
 		Status: http.StatusText(http.StatusBadRequest),
 		Errors: toMapError(err),
 	}
 }
 
-func NotFound[T any]() model.Response[T] {
-	return model.Response[T]{
+func NotFound[T interface{}]() go_common_plugin.Response[T] {
+	return go_common_plugin.Response[T]{
 		Code:   http.StatusNotFound,
 		Status: http.StatusText(http.StatusNotFound),
 	}
 }
 
-func InternalServerError[T any]() model.Response[T] {
-	return model.Response[T]{
+func InternalServerError[T interface{}]() go_common_plugin.Response[T] {
+	return go_common_plugin.Response[T]{
 		Code:   http.StatusInternalServerError,
 		Status: http.StatusText(http.StatusInternalServerError),
 	}
