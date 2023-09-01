@@ -31,7 +31,7 @@ func TestResponseHelper(t *testing.T) {
 		for _, tc := range scenarios {
 			err := validate.Struct(tc)
 			if err != nil {
-				response := BadRequest[any](err)
+				response := BadRequest(err)
 				assert.NotEqual(t, 0, len(response.Errors))
 			}
 		}
@@ -56,25 +56,25 @@ func TestResponseHelper(t *testing.T) {
 		}
 	})
 	t.Run("not found", func(t *testing.T) {
-		response := NotFound[any]()
+		response := NotFound()
 		assert.Equal(t, nil, response.Errors)
 		assert.Equal(t, 404, response.Code)
 		assert.Equal(t, http.StatusText(http.StatusNotFound), response.Status)
 	})
 	t.Run("internal server error", func(t *testing.T) {
-		response := InternalServerError[any]()
+		response := InternalServerError()
 		assert.Equal(t, nil, response.Errors)
 		assert.Equal(t, 500, response.Code)
 		assert.Equal(t, http.StatusText(http.StatusInternalServerError), response.Status)
 	})
 	t.Run("Status", func(t *testing.T) {
-		response := Status[any](422)
+		response := Status(422)
 		assert.Equal(t, nil, response.Errors)
 		assert.Equal(t, 422, response.Code)
 		assert.Equal(t, http.StatusText(http.StatusUnprocessableEntity), response.Status)
 	})
 	t.Run("Business Exception", func(t *testing.T) {
-		response := BusinessException[common_plugin.Error](common_plugin.Error{
+		response := BusinessException(common_plugin.Error{
 			Status: 400,
 			Err:    errors.New("not Found Error"),
 		})
