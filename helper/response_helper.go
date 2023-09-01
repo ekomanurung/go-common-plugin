@@ -7,49 +7,48 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ekomanurung/go-common-plugin/exception"
 	"github.com/go-playground/validator/v10"
 )
 
-func Ok[T interface{}](data T) go_common_plugin.Response[T] {
-	return go_common_plugin.Response[T]{
+func Ok[T interface{}](data T) common_plugin.Response[T] {
+	return common_plugin.Response[T]{
 		Code:   http.StatusOK,
 		Status: http.StatusText(http.StatusOK),
 		Data:   data,
 	}
 }
 
-func Status[T interface{}](status int) go_common_plugin.Response[T] {
-	return go_common_plugin.Response[T]{
+func Status[T interface{}](status int) common_plugin.Response[T] {
+	return common_plugin.Response[T]{
 		Code:   status,
 		Status: http.StatusText(status),
 	}
 }
 
-func BusinessException[T interface{}](ex exception.Exception) go_common_plugin.Response[T] {
-	return go_common_plugin.Response[T]{
-		Code:   ex.Code,
-		Status: ex.Errors.Error(),
+func BusinessException[T interface{}](ex common_plugin.Error) common_plugin.Response[T] {
+	return common_plugin.Response[T]{
+		Code:   ex.Status,
+		Status: ex.Err.Error(),
 	}
 }
 
-func BadRequest[T interface{}](err error) go_common_plugin.Response[T] {
-	return go_common_plugin.Response[T]{
+func BadRequest[T interface{}](err error) common_plugin.Response[T] {
+	return common_plugin.Response[T]{
 		Code:   http.StatusBadRequest,
 		Status: http.StatusText(http.StatusBadRequest),
 		Errors: toMapError(err),
 	}
 }
 
-func NotFound[T interface{}]() go_common_plugin.Response[T] {
-	return go_common_plugin.Response[T]{
+func NotFound[T interface{}]() common_plugin.Response[T] {
+	return common_plugin.Response[T]{
 		Code:   http.StatusNotFound,
 		Status: http.StatusText(http.StatusNotFound),
 	}
 }
 
-func InternalServerError[T interface{}]() go_common_plugin.Response[T] {
-	return go_common_plugin.Response[T]{
+func InternalServerError[T interface{}]() common_plugin.Response[T] {
+	return common_plugin.Response[T]{
 		Code:   http.StatusInternalServerError,
 		Status: http.StatusText(http.StatusInternalServerError),
 	}

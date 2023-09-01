@@ -1,10 +1,11 @@
 package helper
 
 import (
+	"errors"
+	"github.com/ekomanurung/go-common-plugin"
 	"net/http"
 	"testing"
 
-	"github.com/ekomanurung/go-common-plugin/exception"
 	"github.com/go-playground/assert/v2"
 	"github.com/go-playground/validator/v10"
 )
@@ -73,12 +74,12 @@ func TestResponseHelper(t *testing.T) {
 		assert.Equal(t, http.StatusText(http.StatusUnprocessableEntity), response.Status)
 	})
 	t.Run("Business Exception", func(t *testing.T) {
-		response := BusinessException[exception.Exception](exception.Exception{
-			Code:   400,
-			Errors: exception.NotFoundError,
+		response := BusinessException[common_plugin.Error](common_plugin.Error{
+			Status: 400,
+			Err:    errors.New("not Found Error"),
 		})
 		assert.Equal(t, nil, response.Errors)
 		assert.Equal(t, 400, response.Code)
-		assert.Equal(t, exception.NotFoundError.Error(), response.Status)
+		assert.Equal(t, errors.New("not Found Error").Error(), response.Status)
 	})
 }

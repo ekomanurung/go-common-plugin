@@ -5,19 +5,13 @@ import (
 	"net/http"
 )
 
-func FromRequestBody(request *http.Request, i interface{}) {
+func FromRequestBody(request *http.Request, i interface{}) error {
 	decoder := json.NewDecoder(request.Body)
-	err := decoder.Decode(i)
-	if err != nil {
-		panic(err)
-	}
+	return decoder.Decode(i)
 }
 
-func ToResponseBody(writer http.ResponseWriter, i interface{}) {
+func ToResponseBody(writer http.ResponseWriter, i interface{}) error {
 	writer.Header().Add("Content-Type", "application/json")
 	encoder := json.NewEncoder(writer)
-	err := encoder.Encode(i)
-	if err != nil {
-		panic(err)
-	}
+	return encoder.Encode(i)
 }

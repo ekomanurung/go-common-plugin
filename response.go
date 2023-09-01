@@ -1,4 +1,4 @@
-package go_common_plugin
+package common_plugin
 
 type Response[T interface{}] struct {
 	Code   int                 `json:"code"`
