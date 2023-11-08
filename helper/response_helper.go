@@ -81,3 +81,6 @@ func toValidationErrorMessage(fe validator.FieldError) string {
 		return fe.Error()
 	}
 }
+
+func Max() {
+}
