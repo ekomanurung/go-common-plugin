@@ -2,9 +2,10 @@ package helper
 
 import (
 	"errors"
-	"github.com/ekomanurung/go-common-plugin"
 	"net/http"
 	"testing"
+
+	common_plugin "github.com/ekomanurung/go-common-plugin"
 
 	"github.com/go-playground/assert/v2"
 	"github.com/go-playground/validator/v10"
@@ -15,15 +16,15 @@ func TestResponseHelper(t *testing.T) {
 	t.Run("bad request", func(t *testing.T) {
 		scenarios := []struct {
 			Name string `validate:"required"`
-			Age  int    `validate:"required,max=9"`
+			Age  int    `validate:"required,gt=9"`
 		}{
 			{
 				Name: "Eko",
 				Age:  10,
 			},
 			{
-				Name: "",
-				Age:  10,
+				Name: "Jaggu",
+				Age:  5,
 			},
 		}
 
@@ -74,7 +75,7 @@ func TestResponseHelper(t *testing.T) {
 		assert.Equal(t, http.StatusText(http.StatusUnprocessableEntity), response.Status)
 	})
 	t.Run("Business Exception", func(t *testing.T) {
-		response := BusinessException(common_plugin.Error{
+		response := BusinessException(common_plugin.CustomError{
 			Status: 400,
 			Err:    errors.New("not Found Error"),
 		})

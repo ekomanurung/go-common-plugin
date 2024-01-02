@@ -1,13 +1,10 @@
 package common_plugin
 
-import "fmt"
-
-type Error struct {
+type CustomError struct {
 	Status int
 	Err    error
 }
 
-func (e Error) Error() string {
-	fmt.Println("only debugging purpose")
+func (e CustomError) Error() string {
 	return e.Err.Error()
 }

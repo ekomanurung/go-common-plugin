@@ -5,5 +5,4 @@ type Response[T interface{}] struct {
 	Status string              `json:"status"`
 	Errors map[string][]string `json:"errors,omitempty"`
 	Data   T                   `json:"data,omitempty"`
-	Flag   bool
 }

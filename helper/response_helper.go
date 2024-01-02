@@ -3,9 +3,10 @@ package helper
 import (
 	"errors"
 	"fmt"
-	"github.com/ekomanurung/go-common-plugin"
 	"net/http"
 	"strings"
+
+	common_plugin "github.com/ekomanurung/go-common-plugin"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -25,10 +26,10 @@ func Status(status int) common_plugin.Response[interface{}] {
 	}
 }
 
-func BusinessException(ex common_plugin.Error) common_plugin.Response[interface{}] {
+func BusinessException(err common_plugin.CustomError) common_plugin.Response[interface{}] {
 	return common_plugin.Response[interface{}]{
-		Code:   ex.Status,
-		Status: ex.Err.Error(),
+		Code:   err.Status,
+		Status: err.Err.Error(),
 	}
 }
 
@@ -68,19 +69,5 @@ func toMapError(err error) map[string][]string {
 }
 
 func toValidationErrorMessage(fe validator.FieldError) string {
-	switch fe.Tag() {
-	case "required":
-		return "must not be null or empty"
-	case "lte":
-		return fmt.Sprintf("%v should be less than %v", fe.Value(), fe.Param())
-	case "gte":
-		return fmt.Sprintf("%v should be greater than %v", fe.Value(), fe.Param())
-	case "max":
-		return fmt.Sprintf("should be max at %v", fe.Param())
-	default:
-		return fe.Error()
-	}
-}
-
-func Max() {
+	return fmt.Sprintf("Validation failed for tag %s", fe.ActualTag())
 }
